@@ -8,19 +8,18 @@ const host = 'localhost'
 const port = 8888
 const token = '123'
 
-
 const methods = {
   watch: ['head'],
   read: ['get', 'options', 'trace'],
-  write: ['delete', 'patch', 'post', 'put'],
+  write: ['delete', 'patch', 'post', 'put']
 }
 
 const messages = {
   success: {
-    message: "Hello world!"
+    message: 'Hello world!'
   },
   failure: {
-    message: "Invalid request"
+    message: 'Invalid request'
   },
   missing: {
     message: 'endpoint not found'
@@ -52,9 +51,11 @@ let server: Server | null = null
 let client: Client | null = null
 
 beforeAll(() => {
-  server = app.listen(port, () => console.log(`server started at http://${host}:${port}`))
+  server = app.listen(port, () =>
+    console.log(`server started at http://${host}:${port}`)
+  )
   // @ts-ignore
-  client = build({host, port, token, fetch})
+  client = build({ host, port, token, fetch })
 })
 
 afterAll(() => {
@@ -73,21 +74,35 @@ for (const m of methods.watch) {
 }
 for (const m of methods.read) {
   describe(m, () => {
-    // @ts-ignore
-    test('success', () => expect(client[m]('test')).resolves.toEqual(messages.success))
-    // @ts-ignore
-    test('failure', () => expect(client[m]('error')).rejects.toEqual(new Error(messages.failure.message)))
-    // @ts-ignore
-    test('missing', () => expect(client[m]('null')).rejects.toEqual(new Error(messages.missing.message)))
+    test('success', () =>
+      // @ts-ignore
+      expect(client[m]('test')).resolves.toEqual(messages.success))
+    test('failure', () =>
+      // @ts-ignore
+      expect(client[m]('error')).rejects.toEqual(
+        new Error(messages.failure.message)
+      ))
+    test('missing', () =>
+      // @ts-ignore
+      expect(client[m]('null')).rejects.toEqual(
+        new Error(messages.missing.message)
+      ))
   })
 }
 for (const m of methods.write) {
   describe(m, () => {
-    // @ts-ignore
-    test('success', () => expect(client[m]('test')).resolves.toEqual(messages.success))
-    // @ts-ignore
-    test('failure', () => expect(client[m]('error')).rejects.toEqual(new Error(messages.failure.message)))
-    // @ts-ignore
-    test('missing', () => expect(client[m]('null')).rejects.toEqual(new Error(messages.missing.message)))
+    test('success', () =>
+      // @ts-ignore
+      expect(client[m]('test')).resolves.toEqual(messages.success))
+    test('failure', () =>
+      // @ts-ignore
+      expect(client[m]('error')).rejects.toEqual(
+        new Error(messages.failure.message)
+      ))
+    test('missing', () =>
+      // @ts-ignore
+      expect(client[m]('null')).rejects.toEqual(
+        new Error(messages.missing.message)
+      ))
   })
 }
